@@ -57,6 +57,8 @@ describe(`${GamesListComponent.name}`, () => {
 
     // mockGameService.getGames.and.returnValue(of(GAMES))    
     
+    // DAMP vs DRY
+    
     debugElm = fixture.debugElement;
     element = fixture.nativeElement;
   });

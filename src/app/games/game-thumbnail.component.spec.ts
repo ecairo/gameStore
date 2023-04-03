@@ -55,7 +55,46 @@ describe('GameThumbnailComponent', () => {
     expect(component.buyGame).toHaveBeenCalled();
   });
 
+  it('should not render .onSale when game is not on sale', () => {
+    // arrange
+    component.game =  new Game(
+      '84a32c31-1423-4fb3-8d3e-ae728cf860f1',
+      'The Legend of Zelda: Breath of the Wild',
+      'An action-adventure game set in an open world where players control Link as he travels through the kingdom of Hyrule.',
+      new Date('2017-03-03'),
+      59.99,
+      'https://images.pexels.com/photos/1532771/pexels-photo-1532771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    );
+    fixture.detectChanges();
+
+    // act
+    const onSaleElement = fixture.debugElement.query(By.css('.onSale'));
+
+    // assert
+    expect(onSaleElement).toBeNull();
+  });
   
+  it('should render .onSale when game is on sale', () => {
+    // arrange
+    component.game = new Game(
+      '84a32c31-1423-4fb3-8d3e-ae728cf860f1',
+      'The Legend of Zelda: Breath of the Wild',
+      'An action-adventure game set in an open world where players control Link as he travels through the kingdom of Hyrule.',
+      new Date('2017-03-03'),
+      59.99,
+      'https://images.pexels.com/photos/1532771/pexels-photo-1532771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    );
+    fixture.detectChanges();
+
+    // act
+    component.game.setOnSale = 19.99
+    fixture.detectChanges();
+    const onSaleElement = fixture.debugElement.query(By.css('.text-danger'));
+
+    // assert
+    expect(onSaleElement.nativeElement.textContent).toBe('€19.99');
+  });
+
   // it('should increment clicks on button click', fakeAsync(() => {
   //   const button = fixture.nativeElement.querySelector('button');
 
