@@ -18,5 +18,5 @@ export class GameThumbnailComponent {
       console.log(actionResult);
       
       this.gameClick.emit(actionResult);
-    }    
+    }
 }
