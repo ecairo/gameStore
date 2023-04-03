@@ -140,13 +140,13 @@ describe(`${GamesListComponent.name}`, () => {
         By.directive(GameThumbnailComponent)
       );
       const component = fixture.componentInstance;
-      const spy = spyOn(component, 'handleBuyGameClicked');
+      spyOn(component, 'handleBuyGameClicked');
 
       // act
       thumbnailComponents[2].triggerEventHandler('gameClick', gamesList[2]);
 
       // assert
-      expect(spy).toHaveBeenCalledWith(gamesList[2]);
+      expect(component.handleBuyGameClicked).toHaveBeenCalledWith(gamesList[2]);
     })
   });
 });
