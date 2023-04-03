@@ -1,0 +1,12 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Games available</h1>
+        </div>
+    </div>    
+    <hr/>    
+    <div class="row">
+        <app-game-thumbnail class="col-md-4" *ngFor="let game of games" [game]="game" (gameClick)="handleBuyGameClicked($event)"></app-game-thumbnail>
+    </div>    
+</div>
+

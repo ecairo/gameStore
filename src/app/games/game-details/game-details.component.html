@@ -1,0 +1,22 @@
+<div class="card mb-4 box-shadow">
+    <img class="card-img-top" alt="Thumbnail [100%x225]" style="height: 225px; width: 100%; display: block;" src="{{game?.Thumbnail}}" data-holder-rendered="true">
+    <div class="card-body">
+        <h2>{{game?.Name}}</h2>
+        <p class="card-text">
+            {{game?.Description}}
+        </p>
+        <div>Released: {{game?.ReleaseDate}}</div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+            <!-- <button type="button" class="btn btn-sm btn-outline-secondary" (click)="buyGame()">Buy</button> -->
+            </div>
+            <div class="onSale" *ngIf="game?.isOnSale">
+                <small class="text-muted text-decoration-line-through">€{{game?.Price}}</small>                
+                <p class="text-danger">€{{game?.OnSalePrice}}</p>
+            </div>
+            <div class="" *ngIf="!game?.isOnSale">
+                <small class="text-dark-emphasis">€{{game?.Price}}</small>
+            </div>            
+        </div>
+        </div>
+</div>
