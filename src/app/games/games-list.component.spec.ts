@@ -130,5 +130,23 @@ describe(`${GamesListComponent.name}`, () => {
         expect(thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent).toBe(gamesList[index].Name);
       });
     });
+
+    it('should handle buy game', () => {
+      // arrange
+      const gamesList = getDefaultGamesList();
+      mockGameService.getGames.and.returnValue(of(gamesList));      
+      fixture.detectChanges();
+      const thumbnailComponents = debugElm.queryAll(
+        By.directive(GameThumbnailComponent)
+      );
+      const component = fixture.componentInstance;
+      const spy = spyOn(component, 'handleBuyGameClicked');
+
+      // act
+      thumbnailComponents[2].triggerEventHandler('gameClick', gamesList[2]);
+
+      // assert
+      expect(spy).toHaveBeenCalledWith(gamesList[2]);
+    })
   });
 });
