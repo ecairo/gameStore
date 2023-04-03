@@ -13,7 +13,7 @@
             </div>
             <div class="onSale" *ngIf="game.isOnSale">
                 <small class="text-muted text-decoration-line-through">€{{game.Price}}</small>                
-                <p class="text-danger">€{{game.OnSalePrice}}</p>
+                <p class="text-danger" style="font-weight: bold !important;">€{{game.OnSalePrice}}</p>
             </div>
             <div class="" *ngIf="!game.isOnSale">
                 <small class="text-dark-emphasis">€{{game.Price}}</small>

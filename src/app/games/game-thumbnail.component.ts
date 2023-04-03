@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Game } from './shared/game.model';
 
 @Component({
@@ -6,10 +6,14 @@ import { Game } from './shared/game.model';
   templateUrl: './game-thumbnail.component.html',
   styleUrls: ['./game-thumbnail.component.css']
 })
-export class GameThumbnailComponent {
+export class GameThumbnailComponent implements OnInit {
   @Input() game!: Game;
   @Output() gameClick = new EventEmitter()
   timesBought = 0;
+
+  ngOnInit(): void {
+    console.log('Init component GameThumbnail');
+  }
 
   buyGame() {
       this.timesBought++;

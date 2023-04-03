@@ -27,6 +27,7 @@ export class GamesListComponent implements OnInit, OnChanges {
   ngOnInit(){
     this.gameService.getGames().subscribe(data => {
       this.games = data;
+      this.games[3].setOnSale = 9.99;
     });
   }
 
