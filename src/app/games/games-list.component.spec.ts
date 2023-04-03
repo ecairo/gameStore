@@ -55,18 +55,22 @@ describe(`${GamesListComponent.name}`, () => {
 
     fixture = TestBed.createComponent(GamesListComponent);
 
-    // mockGameService.getGames.and.returnValue(of(GAMES))
+    // mockGameService.getGames.and.returnValue(of(GAMES))    
     
     debugElm = fixture.debugElement;
     element = fixture.nativeElement;
   });
 
   it('should be created', () => {
+
+    // arrange
     const gamesList = getDefaultGamesList();
     mockGameService.getGames.and.returnValue(of(gamesList));
 
+    // act
     gameListComponent = fixture.componentInstance;
 
+    // assert
     expect(gameListComponent).toBeTruthy();
   });
 
@@ -76,12 +80,12 @@ describe(`${GamesListComponent.name}`, () => {
       const gamesList = getDefaultGamesList();
       mockGameService.getGames.and.returnValue(of(gamesList));
       gameListComponent = fixture.componentInstance;
-
+     
       // Act
       fixture.detectChanges();
 
       // Assert
-      const thumbnailComponents = fixture.debugElement.queryAll(
+      const thumbnailComponents = debugElm.queryAll(
         By.directive(GameThumbnailComponent)
       );
       expect(thumbnailComponents.length).toBe(gamesList.length);
@@ -95,7 +99,7 @@ describe(`${GamesListComponent.name}`, () => {
 
       // Act
       fixture.detectChanges();
-      const thumbnailComponents = fixture.debugElement.queryAll(
+      const thumbnailComponents = debugElm.queryAll(
         By.directive(GameThumbnailComponent)
       );
 
@@ -110,11 +114,21 @@ describe(`${GamesListComponent.name}`, () => {
     });
 
     it('should have the correct title', () => {
-      // component.games = [
-      //   {}
-      // ];
-      // fixture.detectChanges();
-      // expect(element.querySelector('[card-body]')?.textContent).toContain()
+      // Arrange
+      const gamesList = getDefaultGamesList();
+      mockGameService.getGames.and.returnValue(of(gamesList));
+      gameListComponent = fixture.componentInstance;
+
+      // Act
+      fixture.detectChanges();
+      const thumbnailComponents = debugElm.queryAll(
+        By.directive(GameThumbnailComponent)
+      );
+
+      // Assert
+      thumbnailComponents.forEach((thumbnailComponent, index) => {
+        expect(thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent).toBe(gamesList[index].Name);
+      });
     });
   });
 });
