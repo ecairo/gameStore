@@ -2,7 +2,7 @@
 <div class="container">
     <div class="row">
     <div class="col-md-4">
-        <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" autocomplete="off">            
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)" autocomplete="off">            
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
         
             <div class="form-floating" [ngClass]="{'error': !isValidEmail()}">
@@ -12,6 +12,10 @@
             <div class="form-floating" [ngClass]="{'error': !isValidPassword()}">
                 <input formControlName="userPassword" name="password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Password</label>
+
+                <div class="invalidPassword" *ngIf="!isValidPassword()">
+                    <p class="text-danger" style="font-weight: bold !important;">Password is invalid</p>
+                </div>
             </div>
         
             <div class="checkbox mb-3">
@@ -19,7 +23,7 @@
                 <input type="checkbox" value="remember-me"> Remember me
                 </label>
             </div>
-            <button class="w-50 btn btn-lg btn-primary" type="submit">Sign in</button>
+            <button class="w-50 btn btn-lg btn-primary" [disabled]="!loginForm.valid" type="submit">Login</button>
             <button class="w-50 btn btn-lg btn-outline-secondary" (click)="cancel()">Cancel</button>
         </form>
     </div>

@@ -37,8 +37,9 @@ export class UserLoginComponent implements OnInit{
         return this.userPassword.valid || this.userPassword.untouched
     }
 
-    login(formValues: any){
+    onLogin(formValues: any){
         if(this.loginForm.valid){
+            
             this.authService.loginUser(formValues.userEmail, formValues.userPassword);
             console.log(formValues);
             this.router.navigate(['games']);

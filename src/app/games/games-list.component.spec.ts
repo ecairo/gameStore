@@ -9,13 +9,13 @@ import { AppRoutingModule } from '../app-routing.module';
 import { of } from 'rxjs';
 
 describe(`${GamesListComponent.name}`, () => {
-  let mockGameService: any;
+  let mockGameService: jasmine.SpyObj<GameService>;
   let gameListComponent: GamesListComponent;
   let fixture: ComponentFixture<GamesListComponent>;
   let debugElm: DebugElement;
   let element: HTMLElement;
 
-  function getDefaultGamesList(){
+  function getDefaultGamesList() {
     return [
       new Game(
         '84a32c31-1423-4fb3-8d3e-ae728cf860f1',
@@ -55,16 +55,15 @@ describe(`${GamesListComponent.name}`, () => {
 
     fixture = TestBed.createComponent(GamesListComponent);
 
-    // mockGameService.getGames.and.returnValue(of(GAMES))    
-    
+    // mockGameService.getGames.and.returnValue(of(GAMES))
+
     // DAMP vs DRY
-    
+
     debugElm = fixture.debugElement;
     element = fixture.nativeElement;
   });
 
   it('should be created', () => {
-
     // arrange
     const gamesList = getDefaultGamesList();
     mockGameService.getGames.and.returnValue(of(gamesList));
@@ -82,7 +81,7 @@ describe(`${GamesListComponent.name}`, () => {
       const gamesList = getDefaultGamesList();
       mockGameService.getGames.and.returnValue(of(gamesList));
       gameListComponent = fixture.componentInstance;
-     
+
       // Act
       fixture.detectChanges();
 
@@ -111,7 +110,9 @@ describe(`${GamesListComponent.name}`, () => {
           gamesList[index]
         );
 
-        expect(thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent).toBe(gamesList[index].Name);
+        expect(
+          thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent
+        ).toBe(gamesList[index].Name);
       });
     });
 
@@ -129,14 +130,16 @@ describe(`${GamesListComponent.name}`, () => {
 
       // Assert
       thumbnailComponents.forEach((thumbnailComponent, index) => {
-        expect(thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent).toBe(gamesList[index].Name);
+        expect(
+          thumbnailComponent.query(By.css('h2'))?.nativeElement.textContent
+        ).toBe(gamesList[index].Name);
       });
     });
 
     it('should handle buy game', () => {
       // arrange
       const gamesList = getDefaultGamesList();
-      mockGameService.getGames.and.returnValue(of(gamesList));      
+      mockGameService.getGames.and.returnValue(of(gamesList));
       fixture.detectChanges();
       const thumbnailComponents = debugElm.queryAll(
         By.directive(GameThumbnailComponent)
@@ -149,6 +152,6 @@ describe(`${GamesListComponent.name}`, () => {
 
       // assert
       expect(component.handleBuyGameClicked).toHaveBeenCalledWith(gamesList[2]);
-    })
+    });
   });
 });

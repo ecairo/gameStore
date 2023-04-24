@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import {
   GameRouteActivator
 } from './games/index'
 import { AuthService } from './user/auth.service';
+import { LoginClientService } from './user/login-client.service';
 
 @NgModule({
   declarations: [
@@ -28,9 +30,10 @@ import { AuthService } from './user/auth.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
-  providers: [GameService, GameRouteActivator, AuthService],
+  providers: [GameService, GameRouteActivator, AuthService, LoginClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

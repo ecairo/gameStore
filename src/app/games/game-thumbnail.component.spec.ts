@@ -51,13 +51,12 @@ describe('GameThumbnailComponent', () => {
       'https://images.pexels.com/photos/1532771/pexels-photo-1532771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
     );
     spyOn(thumbnailComponent, 'ngOnInit');
-    
+
     // act
     thumbnailComponent.ngOnInit();
 
     expect(thumbnailComponent.ngOnInit).toHaveBeenCalled();
   });
-
 
   describe('when selling a game', () => {
     it('should call buyGame() when Buy button clicked', () => {
