@@ -12,7 +12,7 @@ export class GameThumbnailComponent implements OnInit {
   timesBought = 0;
 
   ngOnInit(): void {
-    console.log('Init component GameThumbnail');
+    //console.log('Init component GameThumbnail');
   }
 
   buyGame() {

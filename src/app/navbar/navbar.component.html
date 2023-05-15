@@ -13,8 +13,9 @@
           <a class="nav-link" routerLinkActive="active" [routerLink]="['/games/new']">Create Game</a>
         </li>
         <li class="nav-item">
-            <a *ngIf="!authService.isAuthenticated()" class="nav-link" [routerLink]="['user/login']">Login</a>
-            <a *ngIf="authService.isAuthenticated()" class="nav-link" [routerLink]="['/user/profile']">{{authService.loggedUser.FirstName}}</a>
+            <a *ngIf="user == undefined" class="nav-link" [routerLink]="['user/login']">Login</a>
+            <a *ngIf="user != undefined" class="nav-link" [routerLink]="['user/profile']">{{user.UserName}}</a>
+            <a *ngIf="user != undefined" class="nav-link" [routerLink]="['user/logout']">Logout</a>
         </li>
       </ul>
       <form class="d-flex" role="search">

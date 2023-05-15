@@ -1,34 +1,59 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AuthService } from './auth.service';
-import { By } from '@angular/platform-browser';
-// import MockAuthService from './mock-auth.service.stub';
 import { UserProfileComponent } from './user-profile.component';
-import mockInit from './mock-auth.service.stub';
+
+import { ActivatedRoute, Router, Routes } from '@angular/router';
+import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe(`${UserProfileComponent.name}`, () => {
-    let authServiceMock: any;
+    let mockUserService: jasmine.SpyObj<AuthService>;
     let component: UserProfileComponent;
     let fixture: ComponentFixture<UserProfileComponent>;
     let debugElement: DebugElement;
     let element: HTMLElement;
+    let activatedRoute: ActivatedRoute;
+    let router: Router;
+
+    const routes: Routes = [
+        { path: 'user/profile', component: UserProfileComponent},
+      ];   
 
     beforeEach(async () => {
 
-        authServiceMock = mockInit();
-        
+        mockUserService = jasmine.createSpyObj('AuthService', ['getUser']);
+
         await TestBed.configureTestingModule({
             declarations: [UserProfileComponent],
-            imports: [ReactiveFormsModule],
-            providers: [{ provide: AuthService, useValue: authServiceMock }]
+            imports: [
+                ReactiveFormsModule,
+                RouterTestingModule.withRoutes(routes)
+            ],
+            providers: [
+                { provide: AuthService, useValue: mockUserService },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {
+                        snapshot: {
+                            params: of({ }),
+                            paramMap: {
+                                get: (id: string) => activatedRoute.snapshot.params[id],
+                            }
+                        }
+                    }
+                }
+            ]
         }).compileComponents();
 
         fixture = TestBed.createComponent(UserProfileComponent);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
+        activatedRoute = TestBed.inject(ActivatedRoute);
         element = debugElement.nativeElement;
+        router = TestBed.inject(Router);
 
         fixture.detectChanges();
     });
@@ -37,18 +62,12 @@ describe(`${UserProfileComponent.name}`, () => {
         expect(component).toBeTruthy();
     });
 
-    it('should had been already called (dummy)', () => {
+    it('should go to user profile', fakeAsync(() =>{
 
-        authServiceMock.loginUser({
-            userEmail: 'valid-email@example.com', 
-            userPassword: 'password123'
-        });
+        router.navigate(['/user/profile']);
+        tick();
 
-        expect(authServiceMock.loginUser).toHaveBeenCalledWith(
-            {
-                userEmail: 'valid-email@example.com', 
-                userPassword: 'password123'
-            });
-    });
+        expect(component).toBeTruthy();
+    }));
 
 });

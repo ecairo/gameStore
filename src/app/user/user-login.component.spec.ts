@@ -129,7 +129,7 @@ describe(`${UserLoginComponent.name}`, () => {
 
             const onPasswordInvalid = element.querySelector('.invalidPassword');
             expect(onPasswordInvalid).toBeNull();
-        });        
+        });
     });
 
     describe('when login button exist', () => {
