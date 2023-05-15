@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,32 +8,49 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { PageNotFoundComponent } from './errors/page-not-found.component';
 
 import {
-  GamesListComponent,
-  GameThumbnailComponent,
-  GameService,
-  GameDetailsComponent,
-  CreateGameComponent,
-  GameRouteActivator
+    GamesListComponent,
+    GameThumbnailComponent,
+    GameService,
+    GameDetailsComponent,
+    CreateGameComponent,
+    GameRouteActivator
 } from './games/index'
 import { AuthService } from './user/auth.service';
 import { LoginClientService } from './user/login-client.service';
+import { ErrorInterceptor } from './errors.interceptor';
+import { ConfigInterceptor } from './config.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    GamesListComponent,
-    GameThumbnailComponent,
-    GameDetailsComponent,
-    CreateGameComponent,
-    NavbarComponent,
-    PageNotFoundComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-  ],
-  providers: [GameService, GameRouteActivator, AuthService, LoginClientService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        GamesListComponent,
+        GameThumbnailComponent,
+        GameDetailsComponent,
+        CreateGameComponent,
+        NavbarComponent,
+        PageNotFoundComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+    ],
+    providers: [
+        GameService,
+        GameRouteActivator,
+        AuthService,
+        LoginClientService,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ConfigInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ErrorInterceptor,
+            multi: true
+        }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
