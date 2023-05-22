@@ -1,15 +1,18 @@
-import { EventEmitter, Injectable, Output } from "@angular/core";
+import { Injectable } from "@angular/core";
 
-import { AuthUser, User } from "./user.model";
-import { Guid } from "../common/Guid";
+import { User } from "./user.model";
+
 import { LoginClientService } from "./login-client.service";
-import { Observable, catchError, of, tap } from "rxjs";
-import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { Subject } from "rxjs";
+import { HttpErrorResponse } from "@angular/common/http";
 
 
 @Injectable()
 export class AuthService {
-    @Output() loggedUser: EventEmitter<any> = new EventEmitter<any>();
+
+    private user: User | undefined;
+
+    loggedUser = new Subject<boolean>();
 
     constructor(private apiClient: LoginClientService) { }
 
@@ -27,18 +30,13 @@ export class AuthService {
             .subscribe(
                 (response: any) => {
                     if (response.status === 200 || response.token) {
-                        let user = {
-                            //Id: new Guid('ba434a19-4e5d-49d6-98e0-43ff2b76482d'),
-                            FirstName: 'John',
-                            LastName: 'Snow',
-                            UserName: 'Aegon',
+                        this.user = {
+                            UserName: userEmail,
                             Token: response.body ? response.body?.token : response.token
                         };
 
-                        localStorage.setItem("loggedUser", JSON.stringify(user));
-
-                        this.loggedUser.emit(user);
-                        console.log(user);
+                        this.loggedUser.next(true);
+                        localStorage.setItem("user", JSON.stringify(this.user));
                     }
 
                     console.log(response);
@@ -50,33 +48,28 @@ export class AuthService {
     }
 
     logoutUser() {
-        if (localStorage.getItem("loggedUser")) {
-            localStorage.removeItem("loggedUser");
+        if (this.isAuthenticated()) {
+            this.user = undefined;
+            localStorage.removeItem("user");
+            this.loggedUser.next(false);
         }
     }
 
     isAuthenticated() {
-        let storedUser = localStorage.getItem("loggedUser");
-
-        if (storedUser) {
-            return of(JSON.parse(storedUser)).pipe(
-                tap((v) => console.log(v))
-            );
-        }
-
-        return of(undefined);
+        return this.user != undefined;
     }
 
-    getLoggerUserEvent() {
-        return this.loggedUser;
-    }
+    getAuthenticatedUser(): User | undefined {
 
-    getUser(arg0: any) {
-        let storedUser = localStorage.getItem("loggedUser");
-        if (storedUser) {
-            return JSON.parse(storedUser);
+        if (this.isAuthenticated()) {
+            return this.user;
         }
 
-        return undefined;
+        let storedUser = localStorage.getItem("user");
+        if (storedUser !== null) {
+            this.user = JSON.parse(storedUser);
+        }
+
+        return this.user;
     }
 }

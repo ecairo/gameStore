@@ -45,30 +45,25 @@ describe('AuthService', () => {
 
     describe('when call loginUser method', () => {
         it('should authenticate the user', fakeAsync(() => {
-
-            authService.loginUser('useremail@host.com', 'password1234');
-
-            // Prueba que la URL ha sido invocada
-            const testRequest = httpTestingController.expectOne(API_URL);
+            // Arrange
             const expectedUser: User = {
-                //Id: new Guid('ba434a19-4e5d-49d6-98e0-43ff2b76482d'),
-                FirstName: 'John',
-                LastName: 'Snow',
-                UserName: 'Aegon',
+                UserName: 'useremail@host.com',
                 Token: 'QpwL5tke4Pnpja7X4'
             };
+            let authenticatedResult: any = undefined;            
+            authService.loggedUser.subscribe((result) => {
+                if(result){
+                    authenticatedResult = authService.getAuthenticatedUser()
+                }
+            });
 
-            // act            
+            // Act
+            authService.loginUser('useremail@host.com', 'password1234');
+            const testRequest = httpTestingController.expectOne(API_URL);
             testRequest.flush(MOCK_200_RESPONSE);
 
-            // assert
-            let authenticatedResult: any = undefined;
-            authService.isAuthenticated()
-                .pipe(delay(10))
-                .subscribe((result) => (authenticatedResult = result));
-            tick(10);
-
             // Assert
+            tick(10);
             expect(expectedUser).toEqual(authenticatedResult);
             flush();
         }))
@@ -83,7 +78,7 @@ describe('AuthService', () => {
             // act            
             testRequest.flush(MOCK_400_RESPONSE);            
             let authenticatedResult: any;
-            authService.isAuthenticated()
+            authService.loggedUser
                 .pipe(delay(10))
                 .subscribe((result) => (authenticatedResult = result));
             tick(10);

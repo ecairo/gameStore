@@ -1,0 +1,14 @@
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Cart items</h1>
+        </div>
+    </div>    
+    <hr/>    
+    <div class="row" id="gameItems">
+        <div class="col-md-4" *ngFor="let gameItem of gamesStoreShopping$ | async">
+            <h1>{{ gameItem.game.Name }}</h1>
+        </div>
+    </div>    
+</div>

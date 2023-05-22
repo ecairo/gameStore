@@ -22,7 +22,7 @@ describe(`${PageNotFoundComponent.name}`, () => {
     })
 
     it('should create', () => {
-        expect(component).toBeTruthy();
+         expect(component).toBeTruthy();
     });
 
     it('should match snapshot', () => {

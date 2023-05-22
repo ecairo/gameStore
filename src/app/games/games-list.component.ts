@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { GameService } from './shared/game.service';
 import { Game } from './shared/game.model';
-import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-games-list',
@@ -10,6 +9,7 @@ import { Observable } from 'rxjs';
 export class GamesListComponent implements OnInit, OnChanges {
     @Input() filterBy!: string;
     @Input() sortBy!: string;
+
     games!: Game[]
     visibleGames: Game[] = [];
 

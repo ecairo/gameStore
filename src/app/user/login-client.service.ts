@@ -11,7 +11,7 @@ export class LoginClientService {
     constructor(private http: HttpClient) { }
 
     post(email: string, password: string): Observable<HttpResponse<AuthUser>> {
-        let options = { 
+        let options = {
             headers: new HttpHeaders({ 'Context-Type': 'application/json' }),
         };
 
@@ -23,7 +23,7 @@ export class LoginClientService {
         return this.http.post<HttpResponse<AuthUser>>(API_URL + '/login', data, options);
     }
 
-    get(userId: string): Observable<any>{
+    get(userId: string): Observable<any> {
         return this.http.get(API_URL + '/users/' + userId);
     }
 }

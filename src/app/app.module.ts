@@ -19,6 +19,11 @@ import { AuthService } from './user/auth.service';
 import { LoginClientService } from './user/login-client.service';
 import { ErrorInterceptor } from './errors.interceptor';
 import { ConfigInterceptor } from './config.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { StoreModule } from '@ngrx/store';
+import { gameShoppingReducer } from './reducers/game-product.reducer';
+
 
 @NgModule({
     declarations: [
@@ -28,12 +33,17 @@ import { ConfigInterceptor } from './config.interceptor';
         GameDetailsComponent,
         CreateGameComponent,
         NavbarComponent,
-        PageNotFoundComponent
+        PageNotFoundComponent,
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        StoreModule.forRoot({
+            gameShopping: gameShoppingReducer
+        }),
     ],
     providers: [
         GameService,

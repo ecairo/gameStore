@@ -6,22 +6,29 @@ import {
     tick,
 } from '@angular/core/testing';
 
+import { MockStore, provideMockStore } from "@ngrx/store/testing";
 import { GameThumbnailComponent } from './game-thumbnail.component';
 import { BrowserModule, By } from '@angular/platform-browser';
 import { Game } from './shared';
 import { AppRoutingModule } from '../app-routing.module';
+import { AppState } from '../reducers/app-state';
+import { ShoppingGameAction } from '../reducers/game-product.actions';
+import { GameItem } from './shared/game-item';
 
 describe('GameThumbnailComponent', () => {
     let component: GameThumbnailComponent;
     let fixture: ComponentFixture<GameThumbnailComponent>;
+    let store: MockStore<AppState>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [GameThumbnailComponent],
+            providers: [provideMockStore()],
             imports: [BrowserModule, AppRoutingModule],
         }).compileComponents();
 
         fixture = TestBed.createComponent(GameThumbnailComponent);
+        store = TestBed.inject(MockStore);
         component = fixture.componentInstance;
     });
 
@@ -81,6 +88,30 @@ describe('GameThumbnailComponent', () => {
             expect(component.buyGame).toHaveBeenCalled();
         });
 
+        it('should dispatch addGame when Buy button clicked', () => {
+            // arrange
+            component.game = new Game(
+                '84a32c31-1423-4fb3-8d3e-ae728cf860f1',
+                'The Legend of Zelda: Breath of the Wild',
+                'An action-adventure game set in an open world where players control Link as he travels through the kingdom of Hyrule.',
+                new Date('2017-03-03'),
+                59.99,
+                'https://images.pexels.com/photos/1532771/pexels-photo-1532771.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            );
+            fixture.detectChanges();
+            const newShoppingGameItem = {
+                id: component.game.Id.toString(),
+                quantity: 1,
+                price: component.game.Price,
+                game: component.game
+            } as GameItem;
+            spyOn(store, 'dispatch');
+            
+            component.buyGame();
+            
+            expect(store.dispatch).toHaveBeenCalledOnceWith(ShoppingGameAction.addGame({game: newShoppingGameItem}));
+        });
+
         it('should increment clicks on button click', fakeAsync(() => {
             // arrange
             component.game = new Game(
@@ -99,7 +130,7 @@ describe('GameThumbnailComponent', () => {
             button.click();
             tick();
             button.click();
-            
+
             // assert
             expect(component.timesBought).toEqual(2);
 

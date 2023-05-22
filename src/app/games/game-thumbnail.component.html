@@ -9,7 +9,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <div class="btn-group">
             <a [routerLink]="['/games', game.Id.toString()]" class="btn btn-sm btn-outline-secondary">View Details</a>
-            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="buyGame()">Buy</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="buyGame()">Add to Cart</button>
             </div>
             <div class="onSale" *ngIf="game.isOnSale">
                 <small class="text-muted text-decoration-line-through">€{{game.Price}}</small>                

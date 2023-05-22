@@ -6,6 +6,8 @@ import { UserLoginComponent } from './user-login.component';
 import { AuthService } from './auth.service';
 import { By } from '@angular/platform-browser';
 import mockInit from './mock-auth.service.stub';
+import { MaterialModule } from '../material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 //import MockAuthService from './mock-auth.service.stub';
 
 describe(`${UserLoginComponent.name}`, () => {
@@ -22,7 +24,7 @@ describe(`${UserLoginComponent.name}`, () => {
 
         await TestBed.configureTestingModule({
             declarations: [UserLoginComponent],
-            imports: [ReactiveFormsModule],
+            imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
             providers: [{ provide: AuthService, useValue: authServiceMock}]
         }).compileComponents();
 

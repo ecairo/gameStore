@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -19,12 +19,12 @@ describe(`${UserProfileComponent.name}`, () => {
     let router: Router;
 
     const routes: Routes = [
-        { path: 'user/profile', component: UserProfileComponent},
-      ];   
+        { path: 'user/profile', component: UserProfileComponent },
+    ];
 
     beforeEach(async () => {
 
-        mockUserService = jasmine.createSpyObj('AuthService', ['getUser']);
+        mockUserService = jasmine.createSpyObj('AuthService', ['getAuthenticatedUser'], { loggedUser: of(true), });
 
         await TestBed.configureTestingModule({
             declarations: [UserProfileComponent],
@@ -38,7 +38,7 @@ describe(`${UserProfileComponent.name}`, () => {
                     provide: ActivatedRoute,
                     useValue: {
                         snapshot: {
-                            params: of({ }),
+                            params: of({}),
                             paramMap: {
                                 get: (id: string) => activatedRoute.snapshot.params[id],
                             }
@@ -58,16 +58,21 @@ describe(`${UserProfileComponent.name}`, () => {
         fixture.detectChanges();
     });
 
+    afterEach(() => {
+        component.ngOnDestroy();
+    })
+
     it('should be created', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should go to user profile', fakeAsync(() =>{
+    it('should go to user profile', fakeAsync(() => {
 
         router.navigate(['/user/profile']);
         tick();
 
         expect(component).toBeTruthy();
+        flush();
     }));
 
 });

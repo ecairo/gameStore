@@ -7,6 +7,14 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
     templateUrl: './user-login.component.html',
     styles:[
         `
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #eee;
+}
+        
 .error{
     color: red;
 }

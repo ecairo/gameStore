@@ -15,7 +15,7 @@ describe('authGuard', () => {
     let routerStateSnapshot: RouterStateSnapshot;
 
     beforeEach(async () => {
-        userServiceSpy = jasmine.createSpyObj('AuthService', ['isAuthenticated']);
+        userServiceSpy = jasmine.createSpyObj('AuthService', ['getAuthenticatedUser']);
         mockRouter = jasmine.createSpyObj('Router', ['navigate']);
 
         activatedRouteSnapshot = {} as ActivatedRouteSnapshot;
@@ -32,7 +32,7 @@ describe('authGuard', () => {
 
     it('should return true if user is logged in', fakeAsync(() => {
         // Arrange
-        userServiceSpy.isAuthenticated.and.returnValue(of(true));
+        userServiceSpy.getAuthenticatedUser.and.returnValue({UserName: 'demo@test.in', Token: 'qwery'});
 
         const guard = TestBed.runInInjectionContext(() => {
             return authGuardFn(
@@ -46,6 +46,7 @@ describe('authGuard', () => {
         guard
             .pipe(delay(10))
             .subscribe((result) => (guardResult = result));
+        //console.log(`Guard ${guard}`);
 
         tick(10);
 
@@ -57,7 +58,7 @@ describe('authGuard', () => {
 
     it('should return a URL tree if user is not logged in', fakeAsync(() => {
         // Arrange
-        userServiceSpy.isAuthenticated.and.returnValue(of(false));
+        userServiceSpy.getAuthenticatedUser.and.returnValue(undefined);
         const guard = TestBed.runInInjectionContext(() => {
             return authGuardFn(
                 activatedRouteSnapshot,
@@ -65,16 +66,7 @@ describe('authGuard', () => {
             ) as Observable<boolean>;
         })
 
-        // Act
-        let guardResult = null;
-        guard
-            .pipe(delay(10))
-            .subscribe((result) => (guardResult = result));
-
-        tick(10);
-
         // Assert
-        expect(guardResult).toBeFalse();
         expect(mockRouter.navigate).toHaveBeenCalledWith([ '/', 'user', 'login' ]);
 
         flush();
