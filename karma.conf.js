@@ -77,17 +77,19 @@ module.exports = function (config) {
         logLevel: config.LOG_INFO,
         singleRun: true, // tells karma to launch test in one single run within one start of the browser
         reporters: ['progress', 'kjhtml'],
-        browsers: ['Chrome', 'ChromeHeadless'],
+        browsers: ['Chrome', 'ChromeHeadlessNoSandbox'],
         browserDisconnectTimeout: 10000,
         browserDisconnectTolerance: 3,
         browserNoActivityTimeout: 60000,
-
-        flags: [
-            '--disable-web-security',
-            '--disable-gpu',
-            '--no-sandbox'
-        ]
-
-
+        customLaunchers:{
+            ChromeHeadlessNoSandbox:{
+                base: 'ChromeHeadless',
+                flags: [
+                    '--disable-web-security',
+                    '--disable-gpu',
+                    '--no-sandbox'
+                ]
+            }
+        }
     });
 };

@@ -52,5 +52,4 @@ describe(`${fromReducer.gameShoppingReducer.name}`, () => {
             expect(state.gameItems.length).toEqual(0);
         });
     });
-
 });
