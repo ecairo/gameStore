@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageNotFoundComponent should match snapshot 1`] = `
+<ng-component>
+  <h1
+    class="errorMessage"
+  >
+    404 - Page Not Found
+  </h1>
+</ng-component>
+`;
