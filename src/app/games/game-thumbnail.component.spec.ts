@@ -12,7 +12,7 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { Game } from './shared';
 import { AppRoutingModule } from '../app-routing.module';
 import { AppState } from '../reducers/app-state';
-import { ShoppingGameAction } from '../reducers/game-product.actions';
+import { ShoppingGameAction } from '../reducers/cart.actions';
 import { GameItem } from './shared/game-item';
 
 describe('GameThumbnailComponent', () => {

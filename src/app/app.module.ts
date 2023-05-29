@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 
@@ -22,7 +22,8 @@ import { ConfigInterceptor } from './config.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { StoreModule } from '@ngrx/store';
-import { gameShoppingReducer } from './reducers/game-product.reducer';
+import { gameShoppingReducer } from './reducers/cart.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { gameShoppingReducer } from './reducers/game-product.reducer';
         StoreModule.forRoot({
             gameShopping: gameShoppingReducer
         }),
+        StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     ],
     providers: [
         GameService,

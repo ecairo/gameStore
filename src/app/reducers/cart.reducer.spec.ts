@@ -1,6 +1,6 @@
-import * as fromReducer from './game-product.reducer';
+import * as fromReducer from './cart.reducer';
 import { Action } from "@ngrx/store";
-import { ShoppingGameAction } from "./game-product.actions";
+import { ShoppingCartActions } from "./cart.actions";
 import { Game } from '../games/shared/game.model';
 import { GamesStore } from './app-state';
 
@@ -18,7 +18,7 @@ describe(`${fromReducer.gameShoppingReducer.name}`, () => {
     describe('AddGame action', function () {
         it('should have 1 game in gameItems after add 1 game', () => {
 
-            const action = ShoppingGameAction.addGame({game: gameTest});
+            const action = ShoppingCartActions.addGame({game: gameTest});
 
             const state = gameShoppingReducer(initialState, action);
 
@@ -28,11 +28,11 @@ describe(`${fromReducer.gameShoppingReducer.name}`, () => {
 
         it('should have 2 game in gameItems after add 2 game', () => {
 
-            const action1 = ShoppingGameAction.addGame({game: gameTest});
+            const action1 = ShoppingCartActions.addGame({game: gameTest});
 
             let state = gameShoppingReducer(initialState, action1);
 
-            const action2 = ShoppingGameAction.addGame({game: gameTest});
+            const action2 = ShoppingCartActions.addGame({game: gameTest});
 
             state = gameShoppingReducer(state, action2);
 
@@ -45,7 +45,7 @@ describe(`${fromReducer.gameShoppingReducer.name}`, () => {
 
             const includedState: GamesStore = { gameItems: [gameTest], selectedGame: undefined };
 
-            const action = ShoppingGameAction.deleteGame({id: gameTest.id});
+            const action = ShoppingCartActions.deleteGame({id: gameTest.id});
 
             const state = gameShoppingReducer(includedState, action);
             

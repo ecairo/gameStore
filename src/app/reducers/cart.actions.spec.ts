@@ -1,11 +1,11 @@
-import { CartActionTypes, ShoppingGameAction } from "./game-product.actions";
+import { CartActionTypes, ShoppingCartActions } from "./cart.actions";
 
 describe('GameProduct Actions', () => {
     it('should create expected load action', () => {
 
         const payload = { games: [] }
 
-        const expectedAction = ShoppingGameAction.gamesLoaded(payload);
+        const expectedAction = ShoppingCartActions.gamesLoaded(payload);
 
         expect({ ...expectedAction }).toEqual({
             type: CartActionTypes.GAMES_LOADED,

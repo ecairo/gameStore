@@ -14,6 +14,6 @@ const addGame = createAction(CartActionTypes.ADD_GAME, props<{ game: GameItem }>
 
 const deleteGame = createAction(CartActionTypes.DELETE_GAME, props<{ id: string }>());
 
-export const ShoppingGameAction = {
+export const ShoppingCartActions = {
     addGame, deleteGame, gamesLoaded
 }

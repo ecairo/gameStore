@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../reducers/app-state';
-import { ShoppingGameAction } from '../reducers/game-product.actions';
+import { ShoppingCartActions } from '../reducers/cart.actions';
 import { GameItem } from './shared/game-item';
 import { Game } from './shared/game.model';
 
@@ -37,6 +37,6 @@ export class GameThumbnailComponent implements OnInit {
             game: this.game
         } as GameItem;
 
-        this.store.dispatch(ShoppingGameAction.addGame({game: newShoppingGameItem}));
+        this.store.dispatch(ShoppingCartActions.addGame({game: newShoppingGameItem}));
     }
 }
