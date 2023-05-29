@@ -2,6 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { AuthService } from "./auth.service";
 import { Router } from "@angular/router";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import {AuthState} from "../reducers/auth/auth.state";
+import {Store} from "@ngrx/store";
+import {AuthActions} from "../reducers/auth/auth.actions";
 
 @Component({
     templateUrl: './user-login.component.html',
@@ -14,7 +17,7 @@ flex: 1;
 height: 1px;
 background: #eee;
 }
-        
+
 .error{
     color: red;
 }
@@ -25,7 +28,7 @@ export class UserLoginComponent implements OnInit{
     private userPassword!: FormControl;
     loginForm!: FormGroup;
 
-    constructor(private authService: AuthService, private router: Router){}
+    constructor(private store: Store<AuthState>, private router: Router){}
 
     ngOnInit(): void {
         this.userEmail = new FormControl('', [Validators.required, Validators.email])
@@ -47,8 +50,8 @@ export class UserLoginComponent implements OnInit{
 
     onLogin(formValues: any){
         if(this.loginForm.valid){
-            
-            this.authService.loginUser(formValues.userEmail, formValues.userPassword);
+
+            this.store.dispatch(AuthActions.login({username: formValues.userEmail, password: formValues.userPassword}));
             console.log(formValues);
             this.router.navigate(['games']);
         }

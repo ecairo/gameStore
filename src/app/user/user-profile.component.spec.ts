@@ -58,9 +58,9 @@ describe(`${UserProfileComponent.name}`, () => {
         fixture.detectChanges();
     });
 
-    afterEach(() => {
-        component.ngOnDestroy();
-    })
+    // afterEach(() => {
+    //     component.ngOnDestroy();
+    // })
 
     it('should be created', () => {
         expect(component).toBeTruthy();

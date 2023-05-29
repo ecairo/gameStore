@@ -12,8 +12,8 @@ import { BrowserModule, By } from '@angular/platform-browser';
 import { Game } from './shared';
 import { AppRoutingModule } from '../app-routing.module';
 import { AppState } from '../reducers/app-state';
-import { ShoppingGameAction } from '../reducers/cart.actions';
 import { GameItem } from './shared/game-item';
+import {ShoppingCartActions} from "../reducers/cart.actions";
 
 describe('GameThumbnailComponent', () => {
     let component: GameThumbnailComponent;
@@ -106,10 +106,10 @@ describe('GameThumbnailComponent', () => {
                 game: component.game
             } as GameItem;
             spyOn(store, 'dispatch');
-            
+
             component.buyGame();
-            
-            expect(store.dispatch).toHaveBeenCalledOnceWith(ShoppingGameAction.addGame({game: newShoppingGameItem}));
+
+            expect(store.dispatch).toHaveBeenCalledOnceWith(ShoppingCartActions.addGame({game: newShoppingGameItem}));
         });
 
         it('should increment clicks on button click', fakeAsync(() => {
