@@ -24,6 +24,9 @@ import { MaterialModule } from './material.module';
 import { StoreModule } from '@ngrx/store';
 import { gameShoppingReducer } from './reducers/cart.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import {AuthEffects} from "./reducers/auth/auth.effects";
+import {authReducers} from "./reducers/auth/auth.reducers";
 
 
 @NgModule({
@@ -43,9 +46,11 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
         BrowserAnimationsModule,
         MaterialModule,
         StoreModule.forRoot({
-            gameShopping: gameShoppingReducer
+            gameShopping: gameShoppingReducer,
+            auth: authReducers
         }),
         StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+        EffectsModule.forRoot([AuthEffects]),
     ],
     providers: [
         GameService,

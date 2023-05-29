@@ -1,27 +1,18 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { User } from "./user.model";
+import {AuthUser, User} from "./user.model";
 import { AuthService } from "./auth.service";
-import { Subscription } from "rxjs";
+import {Observable, Subscription} from "rxjs";
 import { ActivatedRoute } from "@angular/router";
+import {Store} from "@ngrx/store";
+import {selectAuthenticatedUser} from "../reducers/auth/auth.selectors";
+import {AuthState} from "../reducers/auth/auth.state";
 
 @Component({
     templateUrl: './user-profile.component.html'
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
+export class UserProfileComponent {
 
-    user: User | undefined;
-    userSubscription: Subscription;
+    user$: Observable<User | undefined> = this.store.select(selectAuthenticatedUser);
 
-    constructor(private authService: AuthService, private route: ActivatedRoute) { }
-
-    ngOnInit(): void {
-        this.user = this.authService.getAuthenticatedUser();
-        this.userSubscription = this.authService.loggedUser.subscribe(authStatus => {
-            this.user = this.authService.getAuthenticatedUser();
-        });
-    }
-
-    ngOnDestroy() {
-        this.userSubscription.unsubscribe();
-    }    
+    constructor(private store: Store<AuthState>) { }
 }

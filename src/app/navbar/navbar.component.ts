@@ -1,35 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthService } from '../user/auth.service';
 import { User } from '../user/user.model';
-import { Subscription } from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { OnDestroy } from '@angular/core';
+import {AuthState} from "../reducers/auth/auth.state";
+import {Store} from "@ngrx/store";
+import {selectAuthenticatedUser} from "../reducers/auth/auth.selectors";
+import {AuthActions} from "../reducers/auth/auth.actions";
 
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit, OnDestroy {
+export class NavbarComponent {
     @Input() title: string = "";
 
-    user: User | undefined;
-    userSubscription: Subscription;
+    user$: Observable<User | undefined> = this.store.select(selectAuthenticatedUser);
 
-    constructor(private authService: AuthService) { }
+    constructor(private store: Store<AuthState>) { }
 
-    ngOnInit() {
-        this.user = this.authService.getAuthenticatedUser();
-        this.userSubscription = this.authService.loggedUser.subscribe(authStatus => {
-
-            this.user = this.authService.getAuthenticatedUser();
-        });
-    }
-
-    ngOnDestroy() {
-        this.userSubscription.unsubscribe();
-    }
 
     logout() {
-        this.authService.logoutUser();
+      this.store.dispatch(AuthActions.logout())
     }
 }
